@@ -26,8 +26,11 @@ function check(category, name, ok, detail = '') {
 }
 
 async function api(method, path, body) {
-  const opts = { method, headers: { 'Content-Type': 'application/json' } }
-  if (body) opts.body = JSON.stringify(body)
+  const opts = { method, headers: {} }
+  if (body) {
+    opts.headers['Content-Type'] = 'application/json'
+    opts.body = JSON.stringify(body)
+  }
   const res = await fetch(`${BASE}${path}`, opts)
   const text = await res.text()
   let data = null

@@ -20,16 +20,18 @@ function calculateInterest(amountCents, installments) {
 
 const DAILY_LIMIT_CENTS = 500000
 const MIN_INSTALLMENT_CENTS = 1000
-const MAX_RETRIES = 5
+const MAX_RETRIES = 8
 
 async function withRetry(fn) {
   for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
     try {
       return await fn()
     } catch (err) {
-      const isRetryable = err.code === 'P2034' || err.message?.includes('SQLITE_BUSY')
+      const msg = err.message || ''
+      const isRetryable = err.code === 'P2034' || msg.includes('SQLITE_BUSY') ||
+        msg.includes('database is locked') || msg.includes('Transaction API error')
       if (!isRetryable || attempt === MAX_RETRIES - 1) throw err
-      await new Promise(r => setTimeout(r, 50 * Math.pow(2, attempt) + Math.random() * 50))
+      await new Promise(r => setTimeout(r, 100 * Math.pow(2, attempt) + Math.random() * 100))
     }
   }
 }
