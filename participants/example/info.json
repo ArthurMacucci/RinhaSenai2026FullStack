@@ -1,7 +1,0 @@
-{
-  "team": "example",
-  "members": [
-    { "name": "Example Team", "github": "@example" },
-    { "name": "Bot Test", "github": "@rinha-bot" }
-  ]
-}

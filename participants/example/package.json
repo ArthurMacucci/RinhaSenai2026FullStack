@@ -1,9 +1,0 @@
-{
-  "name": "rinha-example",
-  "private": true,
-  "workspaces": ["backend", "frontend"],
-  "scripts": {
-    "build": "npm run build --workspace=frontend",
-    "start": "npm start --workspace=backend"
-  }
-}
