@@ -9,7 +9,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   rank:
@@ -153,22 +152,10 @@ jobs:
             console.log('Leaderboard e resultados gerados');
           "
 
-      - name: Create leaderboard PR
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add LEADERBOARD.md RESULTS.md
-          git diff --cached --quiet && echo "Sem alteracoes" && exit 0
-          BRANCH="auto/leaderboard-$(date +%s)"
-          git checkout -b "$BRANCH"
-          git commit -m "chore: atualiza leaderboard e resultados"
-          git push origin "$BRANCH"
-          PR_URL=$(gh pr create \
-            --title "chore: atualiza leaderboard e resultados" \
-            --body "Atualizado automaticamente pelo benchmark." \
-            --base main --head "$BRANCH")
-          echo "PR criado: $PR_URL"
-          echo "Aguardando checks passarem..."
-          gh pr merge "$PR_URL" --merge --delete-branch --auto
+          git diff --cached --quiet || git commit -m "chore: atualiza leaderboard e resultados"
+          git push
