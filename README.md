@@ -65,5 +65,5 @@ O benchmark roda automaticamente. Quando todos os testes passarem, o PR pode ser
 
 ## Links
 
-- [Regras de negocio completas](./IDEIA.md)
-- [Resumo do desafio](./RESUMO.md)
+- [Regras de negocio](./REGRA_DE_NEGOCIO.md)
+- [Leaderboard](./LEADERBOARD.md)
