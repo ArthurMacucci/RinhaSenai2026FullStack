@@ -3,9 +3,11 @@ import { createClient } from '@libsql/client'
 import { PrismaClient } from '../generated/prisma/client.ts'
 
 const dbUrl = 'file:../data.db'
-const libsql = createClient({ url: dbUrl })
+export const libsql = createClient({ url: dbUrl })
+
 await libsql.execute('PRAGMA journal_mode = WAL')
 await libsql.execute('PRAGMA busy_timeout = 5000')
+await libsql.execute('PRAGMA synchronous = NORMAL')
 await libsql.execute(`
   CREATE TABLE IF NOT EXISTS "transactions" (
     "id" TEXT NOT NULL PRIMARY KEY,
