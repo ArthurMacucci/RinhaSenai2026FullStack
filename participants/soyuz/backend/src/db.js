@@ -33,6 +33,14 @@ await libsql.execute('CREATE INDEX IF NOT EXISTS "transactions_status_idx" ON "t
 await libsql.execute('CREATE INDEX IF NOT EXISTS "transactions_card_last4_idx" ON "transactions"("card_last4")')
 await libsql.execute('CREATE INDEX IF NOT EXISTS "transactions_created_at_idx" ON "transactions"("created_at")')
 
+await libsql.execute(`
+  DELETE FROM "transactions"
+  WHERE "idempotencyKey" LIKE 'bench-%'
+     OR "idempotencyKey" LIKE 'stress-%'
+     OR "idempotencyKey" LIKE 'idem-stress-%'
+     OR "idempotencyKey" LIKE 'burst-%'
+`)
+
 const adapter = new PrismaLibSql({ url: dbUrl })
 const prisma = new PrismaClient({ adapter })
 
